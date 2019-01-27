@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<form method="post">
+    <label for="po">
+        PO #:
+        <br>
+        <input type="text" name="po" id="po" value="{{po}}">
+    </label>
+    <br>
+    <br>
+    <label for="line">
+        Line:
+        <br>
+        <input type="text" name="line" id="line" value="{{line}}">
+    </label>
+    <br>
+    <br>
+    <input type="submit">
+</form>
+
+{% endblock %}

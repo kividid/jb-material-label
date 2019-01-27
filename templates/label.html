@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="card" style="width: 800px; min-height:1200;">
+    <div class="card-body">
+        <h1>{{poLine.materialName}} <span class="badge badge-secondary">12365</span></h1>
+        <p>Material</p>
+        
+        <h2>{{poLine.materialDescription}}</h2>
+        <p>Description</p>
+        <hr>
+
+        <p>PO #:</p>
+        <h2>{{poLine.po}}</h2>
+        <p>PO Date:</p>
+        <h2>{{poLine.orderDate}}</h2>
+        <p>PO QTY:</p>
+        <h2>{{poLine.orderQty}}</h2>
+    </div>
+
+
+</div>
+
+{% endblock %}
