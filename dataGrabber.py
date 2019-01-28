@@ -1,6 +1,7 @@
 from sqlalchemy.ext.automap import automap_base
 from sqlalchemy.orm import Session
 from sqlalchemy import create_engine
+from models import Label
 
 Base = automap_base()
 
@@ -15,36 +16,26 @@ PoDetail = Base.classes.PO_Detail
 PoHeader = Base.classes.PO_Header
 
 session = Session(engine)
-"""
-testPoOne = session.query(PoDetail).first()
 
-print(testPoOne)
-
-testPo = session.query(PoDetail).filter_by(PO = '41695').all()
-
-print(testPo)
-
-for item in testPo:
-    print(item.PO_Detail)
-"""
-
-class PoLine (object):
+class LabelBuilder (object):
     materialName = ""
     materialDescription = ""
     vendor = ""
     orderDate = ""
     orderQty = 0
     po = ""
-    job = 0
     misc = False
     purchaseUnit = ""
     stockUnit =""
     line = ""
+    job = 0
+    jobCustomer = ""
+    jobDescription = ""
+    jobPart = ""
 
+    def buildSingleLabel(self, po, line):
+        self.resetValues()
 
-    #TODO: Refactor with builder structure
-    
-    def __init__(self, po, line):
         self.po = po
         self.line = line
 
@@ -60,7 +51,7 @@ class PoLine (object):
 
         source = session.query(Source).filter_by(PO_Detail = poDetail.PO_Detail).first()
 
-        if source.Misc_Material == 'true':
+        if source.Misc_Material:
             self.misc = True
 
 
@@ -70,33 +61,44 @@ class PoLine (object):
             self.job = materialReq.Job
             self.materialName = materialReq.Material
             self.materialDescription = materialReq.Description 
-        else: #else the source sould list the name and description
+            job = session.query(Job).get(self.job)  #get job object for job details
+            self.jobCustomer = job.Customer
+            self.jobDescription = job.Description
+            self.jobPart = job.Part_Number
+        else:                                       #else the source sould list the name and description
             self.materialName = source.Material
             self.materialDescription = source.Description
 
-    def __repr__(self):
-        return '<PoLine {0}, {1}, {2}>'.format(self.materialName, self.materialDescription, self.orderQty)
+        label = Label(self.materialName, self.materialDescription, self.vendor,
+                     self.orderDate, self.orderQty, self.po, self.line, self.misc, 
+                     self.purchaseUnit, self.stockUnit, self.job, self.jobCustomer, 
+                     self.jobDescription, self.jobPart)
 
+        print(label)
 
+        return label
 
-def main():
-    another = ""
+    def buildAllLabels(self, po):
+        poDetail = session.query(PoDetail).filter_by(PO = po).all()
+        labels = []
 
-    while another != 'q':
-        poNumber = input('PO #?')
-        line = input('Line #?')
+        for detail in poDetail:
+            labels.append(self.buildSingleLabel(po, detail.Line))
 
-        detail = PoLine(poNumber, line)
-        print(detail)
-        another = input("Press enter to try another. To quit type 'q'.")
+        return labels
 
-
-if __name__ == "__main__":
-    main()
-
-
-""" aJob = session.query(Job).first()
-
-print(aJob)
-
-print(aJob.Customer) """
+    def resetValues(self):
+        self.materialName = ""
+        self.materialDescription = ""
+        self.vendor = ""
+        self.orderDate = ""
+        self.orderQty = 0
+        self.po = ""
+        self.misc = False
+        self.purchaseUnit = ""
+        self.stockUnit =""
+        self.line = ""
+        self.job = 0
+        self.jobCustomer = ""
+        self.jobDescription = ""
+        self.jobPart = ""

@@ -3,6 +3,8 @@
 
 {% block content %}
 
-{{ macros.card(poLine) }}
+{% for poLine in lines %}
+    {{ macros.card(poLine) }}
+{% endfor %}
 
-{% endblock %}
+{%  endblock %}

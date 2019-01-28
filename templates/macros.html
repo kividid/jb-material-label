@@ -1,0 +1,58 @@
+{% macro card(poLine) -%}
+
+<div class="card card-list">
+    {% if poLine.job %}
+    <div class="card-header">
+        <h2>JOB MATERIAL</h2>
+        <hr>
+        <h5>
+        <span class="badge badge-pill badge-secondary">Job: {{poLine.job}}</span>
+        <span class="badge badge-pill badge-secondary">Client: {{poLine.jobCustomer}}</span>
+        <span class="badge badge-pill badge-secondary">Description: {{poLine.jobDescription}}</span>
+        <span class="badge badge-pill badge-secondary">Part: {{poLine.jobPart}}</span>
+    </h5>  
+    </div>
+    {% endif %}
+        
+    <div class="card-body">
+    
+        <h6>Material</h6>
+        <h1>{{poLine.materialName}}</h1>
+        
+        <h6>Description</h6>
+        <h3>{{poLine.materialDescription}}</h3>
+        
+        <hr>
+        <div class="container">
+            <div class="row no-gutters">
+                <div class="col-3">
+                    <h6>PO #:</h6>
+                    <h2>{{poLine.po}}</h2>
+                </div>
+                <div class="col-9">
+                    <h6>Vendor:</h6>
+                    <h2>{{poLine.vendor}}</h2>
+                </div>
+            </div>
+            <div class="row no-gutters">
+                    <div class="col-3">
+                        <h6>Order QTY:</h6>
+                        <h2>{{poLine.orderQty}}</h2>                        
+                    </div>
+                    <div class="col-9">
+                        <h6>PO Date:</h6>
+                        <h2>{{poLine.orderDate}}</h2>
+                    </div>
+                </div>
+        </div>
+        
+        
+    </div>
+
+    {% if poLine.misc %}
+    <div class="card-footer">Miscellaneous material - non stock</div>
+    {% endif %}
+
+</div>
+
+{%- endmacro %}

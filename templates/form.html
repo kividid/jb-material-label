@@ -2,22 +2,13 @@
 
 {% block content %}
 
-<form method="post">
-    <label for="po">
-        PO #:
-        <br>
-        <input type="text" name="po" id="po" value="{{po}}">
-    </label>
-    <br>
-    <br>
-    <label for="line">
-        Line:
-        <br>
-        <input type="text" name="line" id="line" value="{{line}}">
-    </label>
-    <br>
-    <br>
-    <input type="submit">
+<form method="post" class="form-po">
+    <h1 class="h3 mb-3 font-weight-normal">Create a material label</h1>
+    <label for="po" class="sr-only">PO #:</label>
+    <input type="text" name="po" id="po" value="{{po}}" class="form-control" placeholder="PO number" required autofocus>
+    <label for="line" class="sr-only">Line:</label>
+    <input type="text" name="line" id="line" value="{{line}}" class="form-control" placeholder="PO line (optional)">
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Create label</button>
 </form>
 
 {% endblock %}
