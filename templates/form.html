@@ -2,8 +2,10 @@
 
 {% block content %}
 
+<img src="{{url_for('static', filename='images/katlogosm.png')}}" alt="Katalyst Logo" class="logo">
+
 <form method="post" class="form-po">
-    <h1 class="h3 mb-3 font-weight-normal">Create a material label</h1>
+    <h1 class="h3 mb-3 font-weight-normal form-header">Create material label</h1>
     <label for="po" class="sr-only">PO #:</label>
     <input type="text" name="po" id="po" value="{{po}}" class="form-control" placeholder="PO number" required autofocus>
     <label for="line" class="sr-only">Line:</label>
