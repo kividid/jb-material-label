@@ -2,10 +2,22 @@ from sqlalchemy.ext.automap import automap_base
 from sqlalchemy.orm import Session
 from sqlalchemy import create_engine
 from models import Label
+from dotenv import load_dotenv
+import os
+import urllib.parse
+import sys
+
+load_dotenv()
 
 Base = automap_base()
 
-engine = create_engine('mssql+pyodbc://metabase:metabase@pythontest')
+
+#Connect to DB - using DSN on win32, MSFT odbc driver on Linux
+if sys.platform == 'win32':
+    engine = create_engine(os.getenv("ODBC_STRING"))
+elif sys.platform == 'linux2':
+    params = urllib.parse.quote_plus('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+os.getenv("DB_SERVER")+';PORT=1443;DATABASE='+os.getenv("DB_NAME")+';UID='+os.getenv("DB_USER")+';PWD='+ os.getenv("DB_PASS"))
+    engine = create_engine("mssql+pyodbc:///?odbc_connect=%s" % params)
 
 Base.prepare(engine, reflect=True)
 

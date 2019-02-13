@@ -1,0 +1,8 @@
+version: '2.1'
+
+services:
+  jb-material-label:
+    image: jb-material-label
+    build: .
+    ports:
+      - 3300:3300
