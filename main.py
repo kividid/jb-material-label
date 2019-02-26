@@ -1,6 +1,6 @@
 from flask import Flask, redirect, render_template, request, flash
 from flask_sqlalchemy import SQLAlchemy
-from dataGrabber import LabelBuilder
+#from dataGrabber import LabelBuilder
 from dotenv import load_dotenv
 import os
 
@@ -8,9 +8,9 @@ load_dotenv()
 
 app = Flask(__name__)
 app.config['DEBUG'] = True
-app.config['SECRET_KEY'] = os.getenv("SECRET_KEY")
+app.config['SECRET_KEY'] = ("KhR9M2I0oGEd")
 
-builder = LabelBuilder()
+#builder = LabelBuilder()
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -32,30 +32,30 @@ def form():
 
     return render_template('form.html', title='Material Stickers', po=po, line=line)
 
-@app.route('/label')
-def label():
-    args = request.args
+# @app.route('/label')
+# def label():
+#     args = request.args
 
-    if 'po' and 'line' in args:
-        po = str(args['po'])
-        line = str(args['line'])
-        poLine = builder.buildSingleLabel(po, line)
-        #print(poLine)
+#     if 'po' and 'line' in args:
+#         po = str(args['po'])
+#         line = str(args['line'])
+#         poLine = builder.buildSingleLabel(po, line)
+#         #print(poLine)
 
-        return render_template('label.html', poLine = poLine)
+#         return render_template('label.html', poLine = poLine)
 
-    elif 'po' and not 'line' in args:
-        po = str(args['po'])
-        poLines = builder.buildAllLabels(po)
+#     elif 'po' and not 'line' in args:
+#         po = str(args['po'])
+#         poLines = builder.buildAllLabels(po)
 
-        if len(poLines) > 1:
-            return render_template('lines.html', lines = poLines)
-        else:
-            return render_template('label.html', poLine = poLines[0])
+#         if len(poLines) > 1:
+#             return render_template('lines.html', lines = poLines)
+#         else:
+#             return render_template('label.html', poLine = poLines[0])
 
-    else:
-        flash('Invalid URL parameters', 'error')
-        return redirect('/')
+#     else:
+#         flash('Invalid URL parameters', 'error')
+#         return redirect('/')
 
 if __name__ == "__main__":
     app.run()
