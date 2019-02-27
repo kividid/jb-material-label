@@ -10,7 +10,7 @@ pipeline {
 
           }  
         }
-        stage('Build docker') {
+        stage('Build docker 2') {
             steps {
                 def buildImage = docker.build("test-image")
                 //sh 'docker build -t labels:latest .'
