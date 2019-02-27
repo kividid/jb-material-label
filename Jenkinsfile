@@ -12,8 +12,9 @@ pipeline {
         // }
         stage('Build docker') {
             steps {
-                node {
+                script {
                 def buildImage = docker.build("test-image")
+                println "New image, " + buildImage.id
                 }
                 //sh 'docker build -t labels:latest .'
             }
