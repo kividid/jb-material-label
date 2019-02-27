@@ -12,7 +12,7 @@ pipeline {
         }
         stage('Build docker') {
             steps {
-                sh 'docker build -t labels:latest'
+                sh 'docker build -t labels:latest .'
             }
         }
     }
