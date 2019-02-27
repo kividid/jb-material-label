@@ -4,13 +4,13 @@ pipeline {
         buildDiscarder(logRotator(numToKeepStr: '3'))
     }
     stages {
-        stage('Get latest repo'){
-          steps {
-              checkout scm
+        // stage('Get latest repo'){
+        //   steps {
+        //       checkout scm
 
-          }  
-        }
-        stage('Build docker 2') {
+        //   }  
+        // }
+        stage('Build docker') {
             steps {
                 def buildImage = docker.build("test-image")
                 //sh 'docker build -t labels:latest .'
